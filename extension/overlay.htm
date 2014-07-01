@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>croquis for mobile/netcanvas test</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+		<script src="./croquis.js"></script>
+		<script src="./croquis.mobile.js"></script>
+		<script>
+			window.onload = function () {
+				var croquis = new Croquis();
+				croquis.setCanvasSize(400, 300);
+				croquis.addLayer();
+				croquis.fillLayer('#abc');
+
+				Croquis.addToElement(croquis, document.body);
+
+				// test; create overlay layer
+				var overimg = new Image();
+				overimg.onload = function () {
+					canvas = croquis.addOverlayLayer("logo");
+					ctx = canvas.getContext("2d");
+					ctx.clearRect(0,0,canvas.width,canvas.height);
+				    ctx.drawImage(this, 0, 0);
+				}
+				overimg.src = "./test.png";
+
+
+				document.getElementById("removelogo").addEventListener('click', function(e) {
+					croquis.removeOverlayLayer("logo");
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<input type="button" value="remove logo" id="removelogo">
+		<div id="canvas"></div>
+	</body>
+</html>
