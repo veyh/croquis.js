@@ -3,17 +3,87 @@ function Croquis(imageDataList, properties) {
     if (properties != null)
         for (var property in properties)
             self[property] = properties[property];
+    var domContainer = document.createElement('div');
+    domContainer.style.setProperty('user-select', 'none');
+    domContainer.style.setProperty('-webkit-user-select', 'none');
+    domContainer.style.setProperty('-ms-user-select', 'none');
+    domContainer.style.setProperty('-moz-user-select', 'none');
+    domContainer.style.setProperty('position', 'relative');
+    domContainer.style.setProperty('overflow', 'hidden');
+    domContainer.style.setProperty('background-color', '#ccc');
     var domElement = document.createElement('div');
     domElement.style.clear = 'both';
     domElement.style.setProperty('user-select', 'none');
     domElement.style.setProperty('-webkit-user-select', 'none');
     domElement.style.setProperty('-ms-user-select', 'none');
     domElement.style.setProperty('-moz-user-select', 'none');
+    domElement.style.setProperty('position', 'absolute');
+    domElement.style.setProperty('cursor', 'Crosshair');
+    domContainer.appendChild(domElement);
+    var scale = 1;
+    var canvasX = 0, canvasY = 0;
+    var containerSize = {'width': 640, 'height': 480};
+    self.getDOMContainer = function () {
+        return domContainer;
+    };
     self.getDOMElement = function () {
         return domElement;
     };
+    function ScaleCroquis() {
+        // @lazykuna; set parent size, zoom transformation too
+        domElement.style.setProperty('transform', 'scale(' + scale + ')');
+        domElement.style.setProperty('-webkit-transform', 'scale(' + scale + ')');
+        domElement.style.setProperty('-ms-transform', 'scale(' + scale + ')');
+        domElement.style.setProperty('-moz-transform', 'scale(' + scale + ')');
+        domElement.style.setProperty('transform-origin', '0 0');
+        domElement.style.setProperty('-webkit-transform-origin','0 0');
+        domElement.style.setProperty('-ms-transform-origin', '0 0');
+        domElement.style.setProperty('-moz-transform-origin', '0 0');
+        //$(domElement).css('transform-origin', '0 0');
+        //$(domElement).css('transform', 'scale(' + scale + ')');
+        domElement.style.setProperty('left', canvasX+'px');
+        domElement.style.setProperty('top', canvasY+'px');
+        // @lazykuna; brush need to be transformed too ...
+    }
+    self.setScale = function(s) {
+        scale = s;
+        ScaleCroquis();
+    }
+    self.setContainerSize = function(wid, hei) {
+        containerSize.width = wid;
+        containerSize.height = hei;
+
+        domContainer.style.setProperty('width', containerSize.width+'px');
+        domContainer.style.setProperty('height', containerSize.height+'px');
+    }
+    function moveCroquis() {
+        // @lazykuna; for transform
+        domElement.style.setProperty('left', canvasX+'px');
+        domElement.style.setProperty('top', canvasY+'px');
+    }
+    self.moveCanvas = function(x, y) {
+        canvasX = x;
+        canvasY = y;
+        moveCroquis();
+    }
+    self.getContainerSize = function() {
+        return containerSize;
+    }
+    self.getScale = function () {
+        return scale;
+    }
+    self.getScaledCanvasSize = function() {
+        return {'width': size.width*scale, 'height': size.height*scale};
+    }
+    self.getCanvasPosition = function() {
+        return {'x': canvasX, 'y': canvasY};
+    }
     self.getRelativePosition = function (absoluteX, absoluteY) {
         var rect = domElement.getBoundingClientRect();
+        return {x: absoluteX - rect.left,y: absoluteY - rect.top};
+    };
+    self.getRelativeContainerPosition = function (absoluteX, absoluteY) {
+        var rect = domContainer.getBoundingClientRect();
         return {x: absoluteX - rect.left,y: absoluteY - rect.top};
     };
     var eventListeners = {
@@ -101,7 +171,6 @@ function Croquis(imageDataList, properties) {
         redoStack = [];
     };
     function pushUndo(undoFunction) {
-        dispatchEvent('onchange');
         if (self.onChanged)
             self.onChanged();
         if (preventPushUndo)
@@ -128,6 +197,7 @@ function Croquis(imageDataList, properties) {
         while (undoTransaction.length)
             redoTransaction.push(undoTransaction.pop()());
         redoStack.push(redoTransaction);
+        dispatchEvent('onchange');
     };
     self.redo = function () {
         if (pushToTransaction)
@@ -143,6 +213,7 @@ function Croquis(imageDataList, properties) {
         while (redoTransaction.length)
             undoTransaction.push(redoTransaction.pop()());
         undoStack.push(undoTransaction);
+        dispatchEvent('onchange');
     };
     function pushLayerMetadataUndo(index) {
         index = (index == null) ? layerIndex : index;
@@ -275,6 +346,7 @@ function Croquis(imageDataList, properties) {
         }
         if (renderDirtyRect)
             drawDirtyRect(x, y, width, height);
+        dispatchEvent('onchange');
     }
     function pushContextUndo(index) {
         index = (index == null) ? layerIndex : index;
@@ -302,6 +374,7 @@ function Croquis(imageDataList, properties) {
             return swapAll;
         }
         pushUndo(swapAll);
+        dispatchEvent('onchange');
     }
     function pushCanvasSizeUndo(width, height, offsetX, offsetY) {
         var snapshotSize = self.getCanvasSize();
@@ -331,6 +404,7 @@ function Croquis(imageDataList, properties) {
             return rollback;
         }
         pushUndo(rollback);
+        dispatchEvent('onchange');
     }
     var size = {width: 640, height: 480};
     self.getCanvasSize = function () {
@@ -352,6 +426,12 @@ function Croquis(imageDataList, properties) {
         dirtyRectDisplay.height = height;
         domElement.style.width = width + 'px';
         domElement.style.height = height + 'px';
+        // @lazykuna; resize container
+        domContainer.style.width = width + 'px';
+        domContainer.style.height = height + 'px';
+        // @lazykuna; call ScaleCroquis for scaling
+        ScaleCroquis();
+
         for (var i=0; i<layers.length; ++i) {
             var canvas = getLayerCanvas(i);
             var context = getLayerContext(i);
@@ -485,6 +565,7 @@ function Croquis(imageDataList, properties) {
         dispatchEvent('onlayeradd', {index: index});
         if (self.onLayerAdded)
             self.onLayerAdded(index);
+        dispatchEvent('onchange');
         return layer;
     };
     self.removeLayer = function (index) {
@@ -498,6 +579,7 @@ function Croquis(imageDataList, properties) {
         dispatchEvent('onlayerremove', {index: index});
         if (self.onLayerRemoved)
             self.onLayerRemoved(index);
+        dispatchEvent('onchange');
     };
     self.removeAllLayer = function () {
         while (layers.length)
@@ -512,6 +594,7 @@ function Croquis(imageDataList, properties) {
         dispatchEvent('onlayerswap', {a: layerA, b: layerB});
         if (self.onLayerSwapped)
             self.onLayerSwapped(layerA, layerB);
+        dispatchEvent('onchange');
     };
     self.getCurrentLayerIndex = function () {
         return layerIndex;
@@ -619,6 +702,7 @@ function Croquis(imageDataList, properties) {
         index = (index == null) ? layerIndex : index;
         pushLayerMetadataUndo(index);
         layers[index]['croquis-metadata'] = metadata;
+        dispatchEvent('onchange');
     };
     self.getLayerOpacity = function (index) {
         index = (index == null) ? layerIndex : index;
@@ -630,6 +714,7 @@ function Croquis(imageDataList, properties) {
         index = (index == null) ? layerIndex : index;
         pushLayerOpacityUndo(index);
         layers[index].style.opacity = opacity;
+        dispatchEvent('onchange');
     };
     self.getLayerVisible = function (index) {
         index = (index == null) ? layerIndex : index;
@@ -640,6 +725,7 @@ function Croquis(imageDataList, properties) {
         index = (index == null) ? layerIndex : index;
         pushLayerVisibleUndo(index);
         layers[index].style.visibility = visible ? 'visible' : 'hidden';
+        dispatchEvent('onchange');
     };
     function cacheLayer(index) {
         index = (index == null) ? layerIndex : index;
@@ -819,6 +905,12 @@ function Croquis(imageDataList, properties) {
         cacheLayer(self.getCurrentLayerIndex());
     }
     self.down = function (x, y, pressure) {
+        // @lazykuna; convert x, y
+        x -= canvasX;
+        y -= canvasY;
+        x /= scale;
+        y /= scale;
+
         if (isDrawing || isStabilizing)
             throw 'still drawing';
         isDrawing = true;
@@ -862,6 +954,12 @@ function Croquis(imageDataList, properties) {
         }, tickInterval);
     };
     self.move = function (x, y, pressure) {
+        // @lazykuna; convert x, y
+        x -= canvasX;
+        y -= canvasY;
+        x /= scale;
+        y /= scale;
+
         if (!isDrawing)
             throw 'you need to call \'down\' first';
         if (tool == null)
@@ -873,6 +971,12 @@ function Croquis(imageDataList, properties) {
             _move(x, y, pressure);
     };
     self.up = function (x, y, pressure) {
+        // @lazykuna; convert x, y
+        x -= canvasX;
+        y -= canvasY;
+        x /= scale;
+        y /= scale;
+
         if (!isDrawing)
             throw 'you need to call \'down\' first';
         if (tool == null) {

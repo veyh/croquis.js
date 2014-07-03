@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<title>croquis for mobile/netcanvas test</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+		<!-- <script src="./jquery-2.1.0.min.js"></script> -->
+		<script src="./croquis.js"></script>
+		<script src="./croquis.mobile.js"></script>
+		<script src="./croquis.move.js"></script>
+		<script>
+			window.onload = function () {
+				var croquis = new Croquis();
+				croquis.setCanvasSize(400, 300);
+				croquis.addLayer();
+				croquis.fillLayer('#abc');
+
+				Croquis.addToElement(croquis, document.getElementById("canvas"));
+
+				Croquis.moveNavigator(croquis, document.getElementById("navigator"), 300, 200);
+
+				// test; create overlay layer
+				var overimg = new Image();
+				overimg.onload = function () {
+					canvas = croquis.addOverlayLayer("logo");
+					ctx = canvas.getContext("2d");
+					ctx.clearRect(0,0,canvas.width,canvas.height);
+				    ctx.drawImage(this, 0, 0);
+				}
+				overimg.src = "./test.png";
+
+
+				document.getElementById("removelogo").addEventListener('click', function(e) {
+					croquis.removeOverlayLayer("logo");
+				});
+
+				document.getElementById("zoomin").addEventListener('click', function(e) {
+					croquis.setScale(2);
+				});
+
+				document.getElementById("zoomout").addEventListener('click', function(e) {
+					croquis.setScale(0.5);
+				});
+
+				document.getElementById("undo").addEventListener('click', function(e) {
+					croquis.undo();
+				});
+
+				document.getElementById("redo").addEventListener('click', function(e) {
+					croquis.redo();
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<input type="button" value="remove logo" id="removelogo">
+		<input type="button" value="zoom in" id="zoomin">
+		<input type="button" value="zoom out" id="zoomout">
+		<input type="button" value="undo" id="undo">
+		<input type="button" value="redo" id="redo">
+		<div id="canvas"></div>
+		<div id="navigator"></div>
+	</body>
+</html>

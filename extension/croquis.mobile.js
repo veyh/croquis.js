@@ -4,39 +4,48 @@
  */
 
 Croquis.addToElement = function (croquis, element) {
-	element.appendChild(croquis.getDOMElement());
+	if (croquis.getDOMContainer == null) {
+		element.appendChild(croquis.getDOMElement());
+	} else {
+		element.appendChild(croquis.getDOMContainer());
+	}
 
 	// mouse event
-	document.addEventListener('mousedown', function (e) {
-	    croquis.down(e.clientX, e.clientY);
-	    document.addEventListener('mousemove', onMouseMove);
-	    document.addEventListener('mouseup', onMouseUp);
+	element.addEventListener('mousedown', function (e) {
+		var p = croquis.getRelativeContainerPosition(e.clientX, e.clientY);
+	    croquis.down(p.x, p.y);
+	    element.addEventListener('mousemove', onMouseMove);
+	    element.addEventListener('mouseup', onMouseUp);
 	});
 	function onMouseMove(e) {
-	    croquis.move(e.clientX, e.clientY);
+		var p = croquis.getRelativeContainerPosition(e.clientX, e.clientY);
+	    croquis.move(p.x, p.y);
 	}
 	function onMouseUp(e) {
-	    croquis.up(e.clientX, e.clientY);
-	    document.removeEventListener('mousemove', onMouseMove);
-	    document.removeEventListener('mouseup', onMouseUp);
+		var p = croquis.getRelativeContainerPosition(e.clientX, e.clientY);
+	    croquis.up(p.x, p.y);
+	    element.removeEventListener('mousemove', onMouseMove);
+	    element.removeEventListener('mouseup', onMouseUp);
 	}
 
 	// touch event
-	document.addEventListener('touchstart', function (e) {
-	    croquis.down(e.touches[0].pageX, e.touches[0].pageY);
-	    document.addEventListener('touchmove', onTouchMove);
-	    document.addEventListener('touchend', onTouchUp);
+	element.addEventListener('touchstart', function (e) {
+		var p = croquis.getRelativeContainerPosition(e.touches[0].pageX, e.touches[0].pageY);
+	    croquis.down(p.x, p.y);
+	    element.addEventListener('touchmove', onTouchMove);
+	    element.addEventListener('touchend', onTouchUp);
 	});
 	var tx, ty;
 	function onTouchMove(e) {
-		tx = e.touches[0].pageX;
-		ty = e.touches[0].pageY;
-	    croquis.move(e.touches[0].pageX, e.touches[0].pageY);
+		var p = croquis.getRelativeContainerPosition(e.touches[0].pageX, e.touches[0].pageY);
+		tx = p.x;
+		ty = p.y;
+	    croquis.move(p.x, p.y);
 	    e.preventDefault();
 	}
 	function onTouchUp(e) {
 	    croquis.up(tx, ty);
-	    document.removeEventListener('touchmove', onMouseMove);
-	    document.removeEventListener('touchend', onMouseUp);
+	    element.removeEventListener('touchmove', onMouseMove);
+	    element.removeEventListener('touchend', onMouseUp);
 	}
 };
