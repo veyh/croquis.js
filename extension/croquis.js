@@ -4,15 +4,17 @@ function Croquis(imageDataList, properties) {
         for (var property in properties)
             self[property] = properties[property];
     var domContainer = document.createElement('div');
+    domContainer.id = 'croquis_container';
     domContainer.style.setProperty('user-select', 'none');
     domContainer.style.setProperty('-webkit-user-select', 'none');
     domContainer.style.setProperty('-ms-user-select', 'none');
     domContainer.style.setProperty('-moz-user-select', 'none');
     domContainer.style.setProperty('position', 'relative');
     domContainer.style.setProperty('overflow', 'hidden');
-    domContainer.style.setProperty('background-color', '#ccc');
+    //domContainer.style.setProperty('background-color', '#ccc');
     var domElement = document.createElement('div');
     domElement.style.clear = 'both';
+    domElement.id = 'croquis_element';
     domElement.style.setProperty('user-select', 'none');
     domElement.style.setProperty('-webkit-user-select', 'none');
     domElement.style.setProperty('-ms-user-select', 'none');

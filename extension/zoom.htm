@@ -7,12 +7,18 @@
 		<script src="./croquis.js"></script>
 		<script src="./croquis.mobile.js"></script>
 		<script src="./croquis.move.js"></script>
+
+		<style>
+			#croquis_container { background-color: #ccc; }
+			#croquis_element { background-color: #fff; }
+		</style>
+
 		<script>
 			window.onload = function () {
 				var croquis = new Croquis();
 				croquis.setCanvasSize(400, 300);
 				croquis.addLayer();
-				croquis.fillLayer('#abc');
+				//croquis.fillLayer('#abc');
 
 				Croquis.addToElement(croquis, document.getElementById("canvas"));
 

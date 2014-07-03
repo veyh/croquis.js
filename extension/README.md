@@ -1,8 +1,14 @@
 Patched things
-* croquis.move.js - now coordinate works in relative (140703)
-* croquis.js - cursor in crosshair (140703)
+=======================
+
+140703
+-----------------------
+
+* croquis.move.js - now coordinate works in relative
+* croquis.js - cursor in crosshair
 * croquis.js - added onchanged handler for undo/redo, and onchange calls after canvas drawing(fixed pushUndo, _up function, and push*, fill functions for dispatchevent(onchange).)
 * croquis.js - added onzoomchanged handler.
+* croquis.js - now croquis_container, croquis_element created for ease of CSS.
 
 This croquis module provides additional methods -
 

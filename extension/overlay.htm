@@ -5,12 +5,16 @@
 		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
 		<script src="./croquis.js"></script>
 		<script src="./croquis.mobile.js"></script>
+		<style>
+			#croquis_container { background-color: #ccc; }
+			#croquis_element { background-color: #fff; }
+		</style>
 		<script>
 			window.onload = function () {
 				var croquis = new Croquis();
 				croquis.setCanvasSize(400, 300);
 				croquis.addLayer();
-				croquis.fillLayer('#abc');
+				//croquis.fillLayer('#abc');
 
 				Croquis.addToElement(croquis, document.body);
 

@@ -173,7 +173,8 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
     });
 
     croquis.addEventListener('onzoomchanged', function () {
-    	draw(true);
+		canvasScale = croquis.getScale();
+    	draw();
     });
 	
 	draw(true);
