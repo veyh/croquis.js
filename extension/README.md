@@ -121,6 +121,28 @@ Croquis.Layer(croquis, document.getElementById("layerlist"));	// must called imm
 <ul id="layerlist"></ul>
 ```
 
+croquis.brushimage.js
+-----------------------
+
+make brush image UI easily with croquis.brushimage.js!
+
+```html
+<script>
+var croquis = new Croquis();
+Croquis.BrushImage(croquis,
+	[null, "./brushes/1.png", "./brushes/2.png", "./brushes/3.png", "./brushes/4.png", "./brushes/5.png"],
+	document.getElementById("brushimage"));
+</script>
+<style>
+	#brushimage { margin:0; padding:0; clear:both; }
+	#brushimage li { cursor:hand; float:left; display:block; width:36px; height:36px; border:1px solid #ccc; }
+	#brushimage img { display:block; width: 16px; height:16px; margin:10px; }
+</style>
+...
+
+<ul id="brushimage"></ul>
+```
+
 claims
 =======================
 
