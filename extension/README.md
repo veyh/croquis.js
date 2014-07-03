@@ -30,6 +30,7 @@ This croquis module provides additional methods -
 * getOverlayLayer(name)
 * getOverlayLayerContext(name)
 * setContainerSize(width, height)
+* setContainerSizeCentered(width, height)
 * setScale(scale)
 * setScaleCentered(scale)
 * getScale()

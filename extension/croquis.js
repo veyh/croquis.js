@@ -69,6 +69,15 @@ function Croquis(imageDataList, properties) {
         domContainer.style.setProperty('width', containerSize.width+'px');
         domContainer.style.setProperty('height', containerSize.height+'px');
     }
+    self.setContainerSizeCentered = function(wid, hei) {
+        var dx = wid - containerSize.width;
+        var dy = hei - containerSize.height;
+        dx /= 2;
+        dy /= 2;
+        canvasX += dx;
+        canvasY += dy;
+        self.setContainerSize(wid, hei);
+    }
     function moveCroquis() {
         // @lazykuna; for transform
         domElement.style.setProperty('left', canvasX+'px');
