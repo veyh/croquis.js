@@ -95,7 +95,7 @@ Croquis.Layer = function (croquis, ulelement) {
 	};
 	
 	function croquisOnLayerSelected(index) {
-	  $('aside > .layers > ul > li').each(function () {
+	  $(ulelement).find('li').each(function () {
 	    var i = getIndexFromLayerId(this.id),
 	        li = $(this);
 	    li[i == index ? 'addClass' : 'removeClass']('selected');
