@@ -4,11 +4,23 @@ Patched things
 140703
 -----------------------
 
-* croquis.move.js - now coordinate works in relative
+* croquis.mobile.js - fixed some for compatibility. now coordinate works in relative.
+* croquis.move.js - first commit.
 * croquis.js - cursor in crosshair
 * croquis.js - added onchanged handler for undo/redo, and onchange calls after canvas drawing(fixed pushUndo, _up function, and push*, fill functions for dispatchevent(onchange).)
 * croquis.js - added onzoomchanged handler.
 * croquis.js - now croquis_container, croquis_element created for ease of CSS.
+
+
+140701
+-----------------------
+
+* croquis.js - added overlay layer function.
+* croquis.mobile.js - first commit.
+
+
+Additional methods
+=======================
 
 This croquis module provides additional methods -
 
@@ -17,6 +29,7 @@ This croquis module provides additional methods -
 * setOverlayLayerData(name, data)
 * getOverlayLayer(name)
 * getOverlayLayerContext(name)
+* setContainerSize(width, height)
 * setScale(scale)
 * setScaleCentered(scale)
 * getScale()
@@ -31,19 +44,31 @@ This croquis module provides additional methods -
 
 so you can use overlay image/zoom without interferencing original layers.
 
-and, with croquis.mobile.js, you can use croquis even at mobile!
+extensions
+=======================
+
+croquis.mobile.js
+-----------------------
+
+with croquis.mobile.js, you can use croquis even at mobile!
 
 ```javascript
 var croquis = new Croquis();
 Croquis.addToElement(croquis, document.body);
 ```
 
-and, with croquis.move.js, you can make croquis thumbnail for move!
+croquis.move.js
+-----------------------
+
+with croquis.move.js, you can make croquis thumbnail for move!
 
 ```javascript
 var croquis = new Croquis();
 Croquis.moveNavigator(croquis, document.getElementById("navigator"), 300, 200);
 ```
+
+claims
+=======================
 
 both librarys must used with new version of croquis.js commited here.
 
