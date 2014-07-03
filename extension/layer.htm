@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<title>croquis for mobile/netcanvas test</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+		<script src="./jquery-2.1.0.min.js"></script>
+		<script src="./croquis.js"></script>
+		<script src="./croquis.mobile.js"></script>
+		<script src="./croquis.layer.js"></script>
+		<style>
+			#croquis_container { background-color: #ccc; }
+			#croquis_element { background-color: #fff; }
+		</style>
+		<script>
+			window.onload = function () {
+				var croquis = new Croquis();
+				Croquis.Layer(croquis, document.getElementById("layerlist"));	// must called immediately after croquis created
+				Croquis.addToElement(croquis, document.getElementById("canvas"));
+
+				croquis.setCanvasSize(400, 300);
+				croquis.addLayer();
+				//croquis.fillLayer('#abc');
+
+				$("#addlayer").click(function() {
+					console.log("wer");
+					croquis.addLayer();
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="canvas"></div>
+		<a id="addlayer" href="#">add new layer</a>
+		<ul id="layerlist"></ul>
+	</body>
+</html>

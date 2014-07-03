@@ -19,6 +19,7 @@ Patched things
 * croquis.mobile.js - first commit.
 * croquis.colorpicker.js - first commit.
 * croquis.shortcutkey.js - first commit.
+* croquis.layer.js - first commit.
 
 
 Additional methods
@@ -77,12 +78,14 @@ with croquis.colorpicker.js, you can make colorpicker for croquis!
 
 aware dependency of HSBRect, TinyColor, jquery.
 
-```javascript
+```html
+<script>
 var croquis = new Croquis();
 Croquis.ColorPicker(croquis, 200, 200,
 	document.getElementById("colorpicker"),
 	document.getElementById("colorpicker-hue-slider"),
 	document.getElementById("colorpicker-alpha-slider"));
+</script>
 
 ...
 
@@ -100,6 +103,22 @@ make some shortcutkey work in broswer, such as Ctrl+Z or Ctrl+Y.
 
 ```javascript
 Croquis.ShortcutKey(croquis);
+```
+
+croquis.layer.js
+-----------------------
+
+make layer UI easily with croquis.layer.js!
+
+```html
+<script>
+var croquis = new Croquis();
+Croquis.Layer(croquis, document.getElementById("layerlist"));	// must called immediately after croquis created
+</script>
+
+...
+
+<ul id="layerlist"></ul>
 ```
 
 claims
