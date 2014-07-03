@@ -1,6 +1,10 @@
 Patched things
 =======================
 
+140704
+-----------------------
+* croquis.js - fixed important bug on overlay layer resizing
+
 140703
 -----------------------
 
@@ -10,6 +14,9 @@ Patched things
 * croquis.js - added onchanged handler for undo/redo, and onchange calls after canvas drawing(fixed pushUndo, _up function, and push*, fill functions for dispatchevent(onchange).)
 * croquis.js - added onzoomchanged handler.
 * croquis.js - now croquis_container, croquis_element created for ease of CSS.
+* croquis.colorpicker.js - first commit.
+* croquis.shortcutkey.js - first commit.
+* croquis.layer.js - first commit.
 
 
 140701
@@ -17,9 +24,6 @@ Patched things
 
 * croquis.js - added overlay layer function.
 * croquis.mobile.js - first commit.
-* croquis.colorpicker.js - first commit.
-* croquis.shortcutkey.js - first commit.
-* croquis.layer.js - first commit.
 
 
 Additional methods
