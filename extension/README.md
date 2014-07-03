@@ -17,6 +17,8 @@ Patched things
 
 * croquis.js - added overlay layer function.
 * croquis.mobile.js - first commit.
+* croquis.colorpicker.js - first commit.
+* croquis.shortcutkey.js - first commit.
 
 
 Additional methods
@@ -66,6 +68,38 @@ with croquis.move.js, you can make croquis thumbnail for move!
 ```javascript
 var croquis = new Croquis();
 Croquis.moveNavigator(croquis, document.getElementById("navigator"), 300, 200);
+```
+
+croquis.colorpicker.js
+-----------------------
+
+with croquis.colorpicker.js, you can make colorpicker for croquis!
+
+aware dependency of HSBRect, TinyColor, jquery.
+
+```javascript
+var croquis = new Croquis();
+Croquis.ColorPicker(croquis, 200, 200,
+	document.getElementById("colorpicker"),
+	document.getElementById("colorpicker-hue-slider"),
+	document.getElementById("colorpicker-alpha-slider"));
+
+...
+
+<div>
+	<div id="colorpicker"></div>
+	<input id="colorpicker-hue-slider" type="range" min="0" max="360">
+	<input id="colorpicker-alpha-slider" type="range" min="0" max="100" value="100">
+</div>
+```
+
+croquis.shortcutkey.js
+-----------------------
+
+make some shortcutkey work in broswer, such as Ctrl+Z or Ctrl+Y.
+
+```javascript
+Croquis.ShortcutKey(croquis);
 ```
 
 claims

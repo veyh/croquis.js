@@ -1,0 +1,6 @@
+[submodule "extension/HSBRect"]
+	path = extension/HSBRect
+	url = https://github.com/disjukr/HSBRect
+[submodule "extension/TinyColor"]
+	path = extension/TinyColor
+	url = https://github.com/crosspop/TinyColor

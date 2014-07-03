@@ -14,8 +14,8 @@ Croquis.addToElement = function (croquis, element) {
 	element.addEventListener('mousedown', function (e) {
 		var p = croquis.getRelativeContainerPosition(e.clientX, e.clientY);
 	    croquis.down(p.x, p.y);
-	    element.addEventListener('mousemove', onMouseMove);
-	    element.addEventListener('mouseup', onMouseUp);
+	    document.addEventListener('mousemove', onMouseMove);
+	    document.addEventListener('mouseup', onMouseUp);
 	});
 	function onMouseMove(e) {
 		var p = croquis.getRelativeContainerPosition(e.clientX, e.clientY);
@@ -24,16 +24,16 @@ Croquis.addToElement = function (croquis, element) {
 	function onMouseUp(e) {
 		var p = croquis.getRelativeContainerPosition(e.clientX, e.clientY);
 	    croquis.up(p.x, p.y);
-	    element.removeEventListener('mousemove', onMouseMove);
-	    element.removeEventListener('mouseup', onMouseUp);
+	    document.removeEventListener('mousemove', onMouseMove);
+	    document.removeEventListener('mouseup', onMouseUp);
 	}
 
 	// touch event
 	element.addEventListener('touchstart', function (e) {
 		var p = croquis.getRelativeContainerPosition(e.touches[0].pageX, e.touches[0].pageY);
 	    croquis.down(p.x, p.y);
-	    element.addEventListener('touchmove', onTouchMove);
-	    element.addEventListener('touchend', onTouchUp);
+	    document.addEventListener('touchmove', onTouchMove);
+	    document.addEventListener('touchend', onTouchUp);
 	});
 	var tx, ty;
 	function onTouchMove(e) {
@@ -45,7 +45,7 @@ Croquis.addToElement = function (croquis, element) {
 	}
 	function onTouchUp(e) {
 	    croquis.up(tx, ty);
-	    element.removeEventListener('touchmove', onMouseMove);
-	    element.removeEventListener('touchend', onMouseUp);
+	    document.removeEventListener('touchmove', onMouseMove);
+	    document.removeEventListener('touchend', onMouseUp);
 	}
 };

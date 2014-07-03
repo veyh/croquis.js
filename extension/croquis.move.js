@@ -26,8 +26,8 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 	DOMElement.addEventListener('mousedown', function (e) {
 		var p = convertPosToRelative(e.clientX, e.clientY);
 	    navigatordown(p.x, p.y);
-	    DOMElement.addEventListener('mousemove', onMouseMove);
-	    DOMElement.addEventListener('mouseup', onMouseUp);
+	    document.addEventListener('mousemove', onMouseMove);
+	    document.addEventListener('mouseup', onMouseUp);
 	});
 	function onMouseMove(e) {
 		var p = convertPosToRelative(e.clientX, e.clientY);
@@ -36,16 +36,16 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 	function onMouseUp(e) {
 		var p = convertPosToRelative(e.clientX, e.clientY);
 	    navigatorup(p.x, p.y);
-	    DOMElement.removeEventListener('mousemove', onMouseMove);
-	    DOMElement.removeEventListener('mouseup', onMouseUp);
+	    document.removeEventListener('mousemove', onMouseMove);
+	    document.removeEventListener('mouseup', onMouseUp);
 	}
 
 	// touch event
 	DOMElement.addEventListener('touchstart', function (e) {
 		var p = convertPosToRelative(e.touches[0].pageX, e.touches[0].pageY);
 	    navigatordown(p.x, p.y);
-	    DOMElement.addEventListener('touchmove', onTouchMove);
-	    DOMElement.addEventListener('touchend', onTouchUp);
+	    document.addEventListener('touchmove', onTouchMove);
+	    document.addEventListener('touchend', onTouchUp);
 	});
 	var tx, ty;
 	function onTouchMove(e) {
@@ -57,8 +57,8 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 	}
 	function onTouchUp(e) {
 	    navigatorup(tx, ty);
-	    DOMElement.removeEventListener('touchmove', onMouseMove);
-	    DOMElement.removeEventListener('touchend', onMouseUp);
+	    document.removeEventListener('touchmove', onMouseMove);
+	    document.removeEventListener('touchend', onMouseUp);
 	}
 
 	var size = {'width': wid, 'height': hei};
