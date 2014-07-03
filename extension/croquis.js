@@ -469,8 +469,8 @@ function Croquis(imageDataList, properties) {
         // @lazykuna; resize overlaycanvas
         for (var key in overlaylayers) {
             if(overlaylayers.hasOwnProperty(key)) {
-                var canvas = getLayerCanvas(key);
-                var context = getLayerContext(key);
+                var canvas = getOverlayLayer(key);
+                var context = canvas.getContext('2d');
                 var imageData = context.getImageData(0, 0, width, height);
                 canvas.width = width;
                 canvas.height = height;

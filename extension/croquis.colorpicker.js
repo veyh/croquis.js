@@ -46,7 +46,6 @@ Croquis.ColorPicker = function(croquis, width, height, picker, hueslider, alphas
         b = 1 - ((b + halfThumbRadius + sbSizeHeight) / sbSizeHeight);
         var a = croquis.getPaintingOpacity();
         var color = tinycolor({h: h, s:s, v: b, a: a});
-        console.log(color.toHexString());
 
         brush = croquis.getTool();
         brush.setColor(color.toHexString());
