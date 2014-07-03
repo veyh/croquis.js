@@ -44,9 +44,20 @@ function Croquis(imageDataList, properties) {
         domElement.style.setProperty('left', canvasX+'px');
         domElement.style.setProperty('top', canvasY+'px');
         // @lazykuna; brush need to be transformed too ...
+
+        dispatchEvent('onzoomchanged');
     }
     self.setScale = function(s) {
         scale = s;
+        ScaleCroquis();
+    }
+    self.setScaleCentered = function(s) {
+        dx = size.width*(s-scale)/2;
+        dy = size.height*(s-scale)/2;
+        canvasX -= dx;
+        canvasY -= dy;
+        scale = s;
+        moveCroquis();
         ScaleCroquis();
     }
     self.setContainerSize = function(wid, hei) {
@@ -92,6 +103,8 @@ function Croquis(imageDataList, properties) {
         'onup': [],
         'ontick': [],
         'onchange': [],
+        'onchanged': [],
+        'onzoomchanged': [],
         'ontool': [],
         'oncanvassize': [],
         'onlayeradd': [],
@@ -171,6 +184,7 @@ function Croquis(imageDataList, properties) {
         redoStack = [];
     };
     function pushUndo(undoFunction) {
+        dispatchEvent('onchange');
         if (self.onChanged)
             self.onChanged();
         if (preventPushUndo)
@@ -197,7 +211,7 @@ function Croquis(imageDataList, properties) {
         while (undoTransaction.length)
             redoTransaction.push(undoTransaction.pop()());
         redoStack.push(redoTransaction);
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     };
     self.redo = function () {
         if (pushToTransaction)
@@ -213,7 +227,7 @@ function Croquis(imageDataList, properties) {
         while (redoTransaction.length)
             undoTransaction.push(redoTransaction.pop()());
         undoStack.push(undoTransaction);
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     };
     function pushLayerMetadataUndo(index) {
         index = (index == null) ? layerIndex : index;
@@ -346,7 +360,6 @@ function Croquis(imageDataList, properties) {
         }
         if (renderDirtyRect)
             drawDirtyRect(x, y, width, height);
-        dispatchEvent('onchange');
     }
     function pushContextUndo(index) {
         index = (index == null) ? layerIndex : index;
@@ -374,7 +387,7 @@ function Croquis(imageDataList, properties) {
             return swapAll;
         }
         pushUndo(swapAll);
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     }
     function pushCanvasSizeUndo(width, height, offsetX, offsetY) {
         var snapshotSize = self.getCanvasSize();
@@ -404,7 +417,7 @@ function Croquis(imageDataList, properties) {
             return rollback;
         }
         pushUndo(rollback);
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     }
     var size = {width: 640, height: 480};
     self.getCanvasSize = function () {
@@ -565,7 +578,7 @@ function Croquis(imageDataList, properties) {
         dispatchEvent('onlayeradd', {index: index});
         if (self.onLayerAdded)
             self.onLayerAdded(index);
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
         return layer;
     };
     self.removeLayer = function (index) {
@@ -579,7 +592,7 @@ function Croquis(imageDataList, properties) {
         dispatchEvent('onlayerremove', {index: index});
         if (self.onLayerRemoved)
             self.onLayerRemoved(index);
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     };
     self.removeAllLayer = function () {
         while (layers.length)
@@ -594,7 +607,7 @@ function Croquis(imageDataList, properties) {
         dispatchEvent('onlayerswap', {a: layerA, b: layerB});
         if (self.onLayerSwapped)
             self.onLayerSwapped(layerA, layerB);
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     };
     self.getCurrentLayerIndex = function () {
         return layerIndex;
@@ -617,6 +630,7 @@ function Croquis(imageDataList, properties) {
         var context = getLayerContext(index);
         context.clearRect(0, 0, size.width, size.height);
         cacheLayer(index);
+        dispatchEvent('onchanged');
     };
     self.fillLayer = function (fillColor, index) {
         index = (index == null) ? layerIndex : index;
@@ -625,6 +639,7 @@ function Croquis(imageDataList, properties) {
         context.fillStyle = fillColor;
         context.fillRect(0, 0, size.width, size.height);
         cacheLayer(index);
+        dispatchEvent('onchanged');
     };
     self.fillLayerRect = function (fillColor, x, y, width, height, index) {
         index = (index == null) ? layerIndex : index;
@@ -633,6 +648,7 @@ function Croquis(imageDataList, properties) {
         context.fillStyle = fillColor;
         context.fillRect(x, y, width, height);
         cacheLayer(index);
+        dispatchEvent('onchanged');
     };
     self.floodFill = function (x, y, r, g, b, a, index) {
         index = (index == null) ? layerIndex : index;
@@ -688,6 +704,7 @@ function Croquis(imageDataList, properties) {
         }
         context.putImageData(imageData, 0, 0);
         cacheLayer(index);
+        dispatchEvent('onchanged');
     };
     self.getLayerMetadata = function (index) {
         index = (index == null) ? layerIndex : index;
@@ -702,7 +719,7 @@ function Croquis(imageDataList, properties) {
         index = (index == null) ? layerIndex : index;
         pushLayerMetadataUndo(index);
         layers[index]['croquis-metadata'] = metadata;
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     };
     self.getLayerOpacity = function (index) {
         index = (index == null) ? layerIndex : index;
@@ -714,7 +731,7 @@ function Croquis(imageDataList, properties) {
         index = (index == null) ? layerIndex : index;
         pushLayerOpacityUndo(index);
         layers[index].style.opacity = opacity;
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     };
     self.getLayerVisible = function (index) {
         index = (index == null) ? layerIndex : index;
@@ -725,7 +742,7 @@ function Croquis(imageDataList, properties) {
         index = (index == null) ? layerIndex : index;
         pushLayerVisibleUndo(index);
         layers[index].style.visibility = visible ? 'visible' : 'hidden';
-        dispatchEvent('onchange');
+        dispatchEvent('onchanged');
     };
     function cacheLayer(index) {
         index = (index == null) ? layerIndex : index;
@@ -903,6 +920,7 @@ function Croquis(imageDataList, properties) {
         window.clearInterval(knockoutTick);
         window.clearInterval(tick);
         cacheLayer(self.getCurrentLayerIndex());
+        dispatchEvent('onchanged');
     }
     self.down = function (x, y, pressure) {
         // @lazykuna; convert x, y

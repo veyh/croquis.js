@@ -113,7 +113,7 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 		ctx.beginPath();
 		ctx.lineWidth="2";
 		ctx.strokeStyle="red";
-		ctx.rect(thumbRect.left - posCanvas.x*sScale, thumbRect.top - posCanvas.y*sScale,
+		ctx.rect(thumbRect.left - posCanvas.x*sScale/canvasScale, thumbRect.top - posCanvas.y*sScale/canvasScale,
 			thumbRect.width/canvasScale, thumbRect.height/canvasScale);
 		ctx.stroke();
 		ctx.closePath();
@@ -168,11 +168,11 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 		};
 	};
     
-    croquis.addEventListener('onchange', function () {
+    croquis.addEventListener('onchanged', function () {
     	draw(true);
     });
-    
-    croquis.addEventListener('onup', function () {
+
+    croquis.addEventListener('onzoomchanged', function () {
     	draw(true);
     });
 	

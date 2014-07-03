@@ -1,7 +1,8 @@
 Patched things
 * croquis.move.js - now coordinate works in relative (140703)
 * croquis.js - cursor in crosshair (140703)
-* croquis.js - added onchange handler for undo/redo, and onchange calls after canvas drawing(fixed pushUndo function, and push* functions for dispatchevent(onchange).)
+* croquis.js - added onchanged handler for undo/redo, and onchange calls after canvas drawing(fixed pushUndo, _up function, and push*, fill functions for dispatchevent(onchange).)
+* croquis.js - added onzoomchanged handler.
 
 This croquis module provides additional methods -
 
@@ -10,7 +11,8 @@ This croquis module provides additional methods -
 * setOverlayLayerData(name, data)
 * getOverlayLayer(name)
 * getOverlayLayerContext(name)
-* setScale(name)
+* setScale(scale)
+* setScaleCentered(scale)
 * getScale()
 * getScaledCanvasSize()
 * getRelativeContainerPosition(x, y)
