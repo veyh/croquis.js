@@ -76,6 +76,7 @@ function Croquis(imageDataList, properties) {
         dy /= 2;
         canvasX += dx;
         canvasY += dy;
+        moveCroquis();
         self.setContainerSize(wid, hei);
     }
     function moveCroquis() {
