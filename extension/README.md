@@ -9,6 +9,7 @@ Patched things
 * croquis.js - setContainerSizeCentered method remove (automatically center position)
 * croquis.move.js - improved UI when canvas's width long
 * fixed croquis.js, croquis.move.js - when container size != element size.
+* added croquis.brushpointer.js
 
 140703
 -----------------------
@@ -149,6 +150,17 @@ Croquis.BrushImage(croquis,
 ...
 
 <ul id="brushimage"></ul>
+```
+
+croquis.brushpointer.js
+-----------------------
+
+make brush pointer easily with croquis.brushpointer.js!
+
+```javascript
+var croquis = new Croquis();
+var brushpointer = new Croquis.BrushPointer(croquis);
+brushpointer.updatePointer(croquis.getTool());
 ```
 
 claims

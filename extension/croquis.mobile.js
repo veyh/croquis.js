@@ -13,7 +13,6 @@ Croquis.addToElement = function (croquis, element) {
 	// mouse event
 	element.addEventListener('mousedown', function (e) {
 		var p = croquis.getRelativeContainerPosition(e.clientX, e.clientY);
-        console.log(p);
 	    croquis.down(p.x, p.y);
 	    document.addEventListener('mousemove', onMouseMove);
 	    document.addEventListener('mouseup', onMouseUp);
