@@ -6,6 +6,8 @@ Patched things
 * croquis.js - fixed important bug on overlay layer resizing
 * croquis.js - fixed important bug on sortLayer() - now overlay layer won't remove
 * croquis.js - if removeOverlaylayer() calls without name, then it'll remove all overlay layers.
+* croquis.js - setScaleCentered, setContainerSizeCentered method remove (automatically center position)
+* croquis.move.js - improved UI when canvas's width long
 
 140703
 -----------------------
@@ -39,9 +41,7 @@ This croquis module provides additional methods -
 * getOverlayLayer(name)
 * getOverlayLayerContext(name)
 * setContainerSize(width, height)
-* setContainerSizeCentered(width, height)
 * setScale(scale)
-* setScaleCentered(scale)
 * getScale()
 * getScaledCanvasSize()
 * getRelativeContainerPosition(x, y)

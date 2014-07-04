@@ -24,6 +24,16 @@
 
 				Croquis.moveNavigator(croquis, document.getElementById("navigator"), 300, 200);
 
+				var croquis2 = new Croquis();
+				croquis2.setCanvasSize(500, 200);
+				croquis2.addLayer();
+				croquis2.setContainerSize(400, 160);
+				//croquis.fillLayer('#abc');
+
+				Croquis.addToElement(croquis2, document.getElementById("canvas2"));
+
+				Croquis.moveNavigator(croquis2, document.getElementById("navigator2"), 300, 200);
+
 				// test; create overlay layer
 				var overimg = new Image();
 				overimg.onload = function () {
@@ -67,5 +77,8 @@
 		<input type="button" value="redo" id="redo">
 		<div id="canvas"></div>
 		<div id="navigator"></div>
+		<br><br><br><br>
+		<div id="canvas2"></div>
+		<div id="navigator2"></div>
 	</body>
 </html>

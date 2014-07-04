@@ -91,7 +91,7 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 			sScale = size.height / canvasSize.height;
 
 		scaledSize = {width: canvasSize.width*sScale, height: canvasSize.height*sScale};
-		thumbRect = {left: size.width/2-scaledSize.width/2, top: 0, 
+		thumbRect = {left: size.width/2-scaledSize.width/2, top: size.height/2-scaledSize.height/2, 
 			width: scaledSize.width, height: scaledSize.height};
 
 

@@ -52,15 +52,7 @@ function Croquis(imageDataList, properties) {
     self.setScale = function(s) {
         scale = s;
         ScaleCroquis();
-    }
-    self.setScaleCentered = function(s) {
-        dx = size.width*(s-scale)/2;
-        dy = size.height*(s-scale)/2;
-        canvasX -= dx;
-        canvasY -= dy;
-        scale = s;
-        moveCroquis();
-        ScaleCroquis();
+        moveCroquis();  // must be called (to get centering)
     }
     self.setContainerSize = function(wid, hei) {
         containerSize.width = wid;
@@ -68,21 +60,17 @@ function Croquis(imageDataList, properties) {
 
         domContainer.style.setProperty('width', containerSize.width+'px');
         domContainer.style.setProperty('height', containerSize.height+'px');
-    }
-    self.setContainerSizeCentered = function(wid, hei) {
-        var dx = wid - containerSize.width;
-        var dy = hei - containerSize.height;
-        dx /= 2;
-        dy /= 2;
-        canvasX += dx;
-        canvasY += dy;
-        moveCroquis();
-        self.setContainerSize(wid, hei);
+
+        moveCroquis();  // must be called (to get centering)
     }
     function moveCroquis() {
         // @lazykuna; for transform
-        domElement.style.setProperty('left', canvasX+'px');
-        domElement.style.setProperty('top', canvasY+'px');
+        // get center pos
+        var cx = (containerSize.width - size.width)/2;
+        var cy = (containerSize.height - size.height)/2;
+
+        domElement.style.setProperty('left', cx+canvasX+'px');
+        domElement.style.setProperty('top', cy+canvasY+'px');
     }
     self.moveCanvas = function(x, y) {
         canvasX = x;
@@ -452,8 +440,7 @@ function Croquis(imageDataList, properties) {
         domElement.style.width = width + 'px';
         domElement.style.height = height + 'px';
         // @lazykuna; resize container
-        domContainer.style.width = width + 'px';
-        domContainer.style.height = height + 'px';
+        self.setContainerSize(width, height);
         // @lazykuna; call ScaleCroquis for scaling
         ScaleCroquis();
 
