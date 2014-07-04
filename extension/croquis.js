@@ -54,6 +54,13 @@ function Croquis(imageDataList, properties) {
         ScaleCroquis();
         moveCroquis();  // must be called (to get centering)
     }
+    self.setScaleCentered = function(s) {
+        var dx = size.width*(s-scale)/2;
+        var dy = size.height*(s-scale)/2;
+        canvasX -= dx;
+        canvasY -= dy;
+        self.setScale(s);
+    }
     self.setContainerSize = function(wid, hei) {
         containerSize.width = wid;
         containerSize.height = hei;
