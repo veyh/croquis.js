@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>croquis for mobile/netcanvas test</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+		<!-- <script src="./jquery-2.1.0.min.js"></script> -->
+		<script src="./croquis.js"></script>
+		<script src="./croquis.mobile.js"></script>
+		<script src="./croquis.brushpointer.js"></script>
+		<script src="./croquis.brushimage.js"></script>
+		<style>
+			#croquis_container { background-color: #ccc; }
+			#croquis_element { background-color: #fff; }
+
+			#brushimage { margin:0; padding:0; clear:both; }
+			#brushimage li { cursor:hand; float:left; display:block; width:36px; height:36px; border:1px solid #ccc; }
+			#brushimage img { display:block; width: 16px; height:16px; margin:10px; }
+		</style>
+
+		<style>
+			#croquis_container { background-color: #ccc; }
+			#croquis_element { background-color: #fff; }
+		</style>
+
+		<script>
+			window.onload = function () {
+				var croquis = new Croquis();
+				croquis.setCanvasSize(400, 300);
+				croquis.addLayer();
+				//croquis.fillLayer('#abc');
+
+				Croquis.addToElement(croquis, document.getElementById("canvas"));
+
+				var brushpointer = new Croquis.BrushPointer(croquis);
+				brushpointer.updatePointer(croquis.getTool());
+
+				Croquis.BrushImage(croquis,
+					[null, "./brushes/1.png", "./brushes/2.png", "./brushes/3.png", "./brushes/4.png", "./brushes/5.png"],
+					document.getElementById("brushimage"),
+					function(d) { brushpointer.updatePointer(croquis.getTool()); } );
+
+			    document.getElementById('brush-size-slider').addEventListener('change', function () {
+			    	var brush = croquis.getTool();
+					brush.setSize(this.value);
+					brushpointer.updatePointer(brush);
+					croquis.setTool(brush);
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="canvas"></div>
+		<ul id="brushimage"></ul>
+		<input id="brush-size-slider" type="range" min="1" max="100">
+	</body>
+</html>
