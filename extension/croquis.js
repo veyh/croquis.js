@@ -933,8 +933,12 @@ function Croquis(imageDataList, properties) {
     }
     self.down = function (x, y, pressure) {
         // @lazykuna; convert x, y
+        console.log(canvasX);
+        console.log(canvasY);
         x -= canvasX;
         y -= canvasY;
+        x -= (containerSize.width - size.width)*scale/2;
+        y -= (containerSize.height - size.height)*scale/2;
         x /= scale;
         y /= scale;
 
@@ -984,6 +988,8 @@ function Croquis(imageDataList, properties) {
         // @lazykuna; convert x, y
         x -= canvasX;
         y -= canvasY;
+        x -= (containerSize.width - size.width)*scale/2;
+        y -= (containerSize.height - size.height)*scale/2;
         x /= scale;
         y /= scale;
 
@@ -1001,6 +1007,8 @@ function Croquis(imageDataList, properties) {
         // @lazykuna; convert x, y
         x -= canvasX;
         y -= canvasY;
+        x -= (containerSize.width - size.width)*scale/2;
+        y -= (containerSize.height - size.height)*scale/2;
         x /= scale;
         y /= scale;
 

@@ -65,6 +65,7 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 	var thumbnail = null;
 	var thumbRect = null;
 	var containerSize = null;
+	var containerRect = null;
 	var canvasSize = null;
 	var scaledSize = null;	// scaled for thumbnail drawing
 	var posCanvas = null;
@@ -93,6 +94,12 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 		scaledSize = {width: canvasSize.width*sScale, height: canvasSize.height*sScale};
 		thumbRect = {left: size.width/2-scaledSize.width/2, top: size.height/2-scaledSize.height/2, 
 			width: scaledSize.width, height: scaledSize.height};
+		var cCorrection = {width: (containerSize.width - canvasSize.width)/2*sScale,
+			height: (containerSize.height - canvasSize.height)/2*sScale};
+		containerRect = {left: thumbRect.left - cCorrection.width,
+			top: thumbRect.top - cCorrection.height, 
+			width: thumbRect.width + cCorrection.width*2,
+			height: thumbRect.height + cCorrection.height*2}
 
 
 
@@ -113,8 +120,8 @@ Croquis.moveNavigator = function (croquis, element, wid, hei) {
 		ctx.beginPath();
 		ctx.lineWidth="2";
 		ctx.strokeStyle="red";
-		ctx.rect(thumbRect.left - posCanvas.x*sScale/canvasScale, thumbRect.top - posCanvas.y*sScale/canvasScale,
-			thumbRect.width/canvasScale, thumbRect.height/canvasScale);
+		ctx.rect(containerRect.left - posCanvas.x*sScale/canvasScale, containerRect.top - posCanvas.y*sScale/canvasScale,
+			containerRect.width/canvasScale, containerRect.height/canvasScale);
 		ctx.stroke();
 		ctx.closePath();
 	}

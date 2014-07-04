@@ -8,6 +8,7 @@ Patched things
 * croquis.js - if removeOverlaylayer() calls without name, then it'll remove all overlay layers.
 * croquis.js - setContainerSizeCentered method remove (automatically center position)
 * croquis.move.js - improved UI when canvas's width long
+* fixed croquis.js, croquis.move.js - when container size != element size.
 
 140703
 -----------------------
