@@ -935,8 +935,8 @@ function Croquis(imageDataList, properties) {
         // @lazykuna; convert x, y
         x -= canvasX;
         y -= canvasY;
-        x -= (containerSize.width - size.width)*scale/2;
-        y -= (containerSize.height - size.height)*scale/2;
+        x -= (containerSize.width - size.width)/2;
+        y -= (containerSize.height - size.height)/2;
         x /= scale;
         y /= scale;
 
@@ -986,8 +986,8 @@ function Croquis(imageDataList, properties) {
         // @lazykuna; convert x, y
         x -= canvasX;
         y -= canvasY;
-        x -= (containerSize.width - size.width)*scale/2;
-        y -= (containerSize.height - size.height)*scale/2;
+        x -= (containerSize.width - size.width)/2;
+        y -= (containerSize.height - size.height)/2;
         x /= scale;
         y /= scale;
 
@@ -1005,8 +1005,8 @@ function Croquis(imageDataList, properties) {
         // @lazykuna; convert x, y
         x -= canvasX;
         y -= canvasY;
-        x -= (containerSize.width - size.width)*scale/2;
-        y -= (containerSize.height - size.height)*scale/2;
+        x -= (containerSize.width - size.width)/2;
+        y -= (containerSize.height - size.height)/2;
         x /= scale;
         y /= scale;
 
