@@ -510,6 +510,7 @@ function Croquis(imageDataList, properties) {
     var renderDirtyRect = false;
     function sortLayers() {
         for (var child in domElement.childNodes) {
+            if (child.parent != domElement) continue;
             if (child.className == "croquis-layer-overlay") continue;
             domElement.removeChild(child);
         }
