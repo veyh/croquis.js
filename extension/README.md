@@ -5,6 +5,7 @@ Patched things
 -----------------------
 * croquis.js - fixed important bug on overlay layer resizing
 * croquis.js - fixed important bug on sortLayer() - now overlay layer won't remove
+* croquis.js - if removeOverlaylayer() calls without name, then it'll remove all overlay layers.
 
 140703
 -----------------------

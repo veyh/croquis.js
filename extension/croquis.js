@@ -509,9 +509,9 @@ function Croquis(imageDataList, properties) {
     dirtyRectDisplay.style.position = 'absolute';
     var renderDirtyRect = false;
     function sortLayers() {
-        while (domElement.firstChild) {
-            if (domElement.firstChild.className == "croquis-layer-overlay") continue;
-            domElement.removeChild(domElement.firstChild);
+        for (var child in domElement.childNodes) {
+            if (child.className == "croquis-layer-overlay") continue;
+            domElement.removeChild(child);
         }
         for (var i = 0; i < layers.length; ++i) {
             var layer = layers[i];
@@ -1067,6 +1067,15 @@ function Croquis(imageDataList, properties) {
         return canvas;
     }
     self.removeOverlayLayer = function(name) {
+        if (name == undefined) {
+            // remove all overlay layers
+            for (var key in overlaylayers) {
+                domElement.removeChild(overlaylayers[key]);
+                delete overlaylayers[key];
+            }
+            return;
+        }
+
         obj = overlaylayers[name];
         if (obj == undefined)
             return;
