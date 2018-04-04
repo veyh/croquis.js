@@ -1,7 +1,27 @@
 /*global define*/
 (function() {
   /**
-   * @typedef {Rect}
+   * @external HTMLElement
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement|HTMLElement}
+   */
+
+  /**
+   * @external ImageData
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/ImageData|ImageData}
+   */
+
+  /**
+   * @external HTMLCanvasElement
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement|HTMLCanvasElement}
+   */
+
+  /**
+   * @external CanvasRenderingContext2D
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D|CanvasRenderingContext2D}
+   */
+
+  /**
+   * @typedef {object} Rect
    * @param {number} x
    * @param {number} y
    * @param {number} width
@@ -18,6 +38,15 @@
    * @typedef {object} Point
    * @property {number} x
    * @property {number} y
+   */
+
+  /**
+   * @typedef {object} ColorData
+   * @param {number} r
+   * @param {number} g
+   * @param {number} b
+   * @param {number} a
+   * @param {string} htmlColor
    */
 
   /**
@@ -135,7 +164,7 @@
    * [Croquis description]
    *
    * @class Croquis
-   * @param {object[]} imageDataList [description]
+   * @param {external:ImageData[]} imageDataList [description]
    * @param {object} properties    [description]
    */
   function Croquis(imageDataList, properties) {
@@ -168,15 +197,10 @@
     var containerSize = {'width': 640, 'height': 480};
 
     /**
-     * @external HTMLElement
-     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement|HTMLElement}
-     */
-
-    /**
      * [getDOMContainer description]
      *
      * @alias Croquis#getDOMContainer
-     * @return {HTMLElement} [description]
+     * @return {external:HTMLElement} [description]
      */
     self.getDOMContainer = function () {
       return domContainer;
@@ -186,7 +210,7 @@
      * [getDOMElement description]
      *
      * @alias Croquis#getDOMElement
-     * @return {HTMLElement} [description]
+     * @return {external:HTMLElement} [description]
      */
     self.getDOMElement = function () {
       return domElement;
@@ -784,13 +808,16 @@
     };
 
     /**
-     * [setCanvasSize description]
+     * Set the actual canvas size, ignoring scaling. You can use the offsets to
+     * move the contents of the whole canvas along with the resize.
+     *
+     * This will also set the container size to the given values.
      *
      * @alias Croquis#setCanvasSize
-     * @param {number} width   [description]
-     * @param {number} height  [description]
-     * @param {number} offsetX [description]
-     * @param {number} offsetY [description]
+     * @param {number} width
+     * @param {number} height
+     * @param {number} offsetX=0 negative means left, positive means right
+     * @param {number} offsetY=0 negative means up, positive means down
      * @return {undefined}
      */
     self.setCanvasSize = function (width, height, offsetX, offsetY) {
@@ -885,7 +912,7 @@
      *
      * @alias Croquis#getLayerCanvas
      * @param  {number} index [description]
-     * @return {object}       [description]
+     * @return {external:HTMLCanvasElement}       [description]
      */
     function getLayerCanvas(index) {
       return layers[index].getElementsByClassName('croquis-layer-canvas')[0];
@@ -963,7 +990,7 @@
      * @param  {number} index  [description]
      * @param  {number} width  [description]
      * @param  {number} height [description]
-     * @return {object}        [description]
+     * @return {external:HTMLCanvasElement}        [description]
      */
     self.createLayerThumbnail = function (index, width, height) {
       index = (index == null) ? layerIndex : index;
@@ -984,7 +1011,7 @@
      * @alias Croquis#createFlattenThumbnail
      * @param  {number} width  [description]
      * @param  {number} height [description]
-     * @return {object}        [description]
+     * @return {external:HTMLCanvasElement}        [description]
      */
     self.createFlattenThumbnail = function (width, height) {
       width = (width == null) ? size.width : width;
@@ -1028,7 +1055,7 @@
      *
      * @alias Croquis#addLayer
      * @param {number} index
-     * @return {object}
+     * @return {external:HTMLElement}
      */
     self.addLayer = function (index) {
       index = (index == null) ? layers.length : index;
@@ -1365,7 +1392,7 @@
      *
      * @alias Croquis#getLayerImageDataCache
      * @param  {number} index [description]
-     * @return {object}       [description]
+     * @return {external:ImageData}       [description]
      */
     self.getLayerImageDataCache = function (index) {
       index = (index == null) ? layerIndex : index;
@@ -1393,7 +1420,7 @@
      * @param  {number} x     [description]
      * @param  {number} y     [description]
      * @param  {number} index [description]
-     * @return {object}       [description]
+     * @return {ColorData}       [description]
      */
     self.pickColor = function (x, y, index) {
       x = x | 0; // cast to int
@@ -1418,7 +1445,7 @@
      * @param  {number} x         [description]
      * @param  {number} y         [description]
      * @param  {string} baseColor [description]
-     * @return {object}           [description]
+     * @return {ColorData}           [description]
      */
     self.eyeDrop = function (x, y, baseColor) {
       if (self.pickColor(x, y) == null)
@@ -1817,7 +1844,7 @@
      *
      * @alias Croquis#addOverlayLayer
      * @param {string} name [description]
-     * @return {object} [description]
+     * @return {external:HTMLCanvasElement} [description]
      */
     self.addOverlayLayer = function(name) {
       var layer = document.createElement('div');
@@ -1870,7 +1897,7 @@
      *
      * @alias Croquis#setOverlayLayerData
      * @param {name} name [description]
-     * @param {object} data [description]
+     * @param {external:ImageData} data [description]
      * @return {undefined}
      */
     self.setOverlayLayerData = function(name, data) {
@@ -1887,7 +1914,7 @@
      *
      * @alias Croquis#getOverlayLayer
      * @param  {string} name [description]
-     * @return {object}      [description]
+     * @return {external:HTMLCanvasElement}      [description]
      */
     function getOverlayLayer(name) {
       return overlaylayers[name]
@@ -1899,7 +1926,7 @@
      *
      * @alias Croquis#getOverlayLayerContext
      * @param  {string} name [description]
-     * @return {object}      [description]
+     * @return {external:CanvasRenderingContext2D}      [description]
      */
     function getOverlayLayerContext(name) {
       return getOverlayLayer(name).getContext('2d');
@@ -1916,7 +1943,7 @@
    * @param  {number} cellSize [description]
    * @param  {string} colorA   [description]
    * @param  {string} colorB   [description]
-   * @return {HTMLElement}          [description]
+   * @return {external:HTMLElement}          [description]
    */
   Croquis.createChecker = function (cellSize, colorA, colorB) {
     cellSize = (cellSize == null) ? 10 : cellSize;
@@ -1947,7 +1974,7 @@
    * @param  {string} shadow        [description]
    * @param  {number} shadowOffsetX [description]
    * @param  {number} shadowOffsetY [description]
-   * @return {object}               [description]
+   * @return {external:HTMLCanvasElement}               [description]
    */
   Croquis.createBrushPointer = function (brushImage, brushSize, brushAngle,
                        threshold, antialias, color,
@@ -2020,7 +2047,7 @@
    * @param  {number} threshold [description]
    * @param  {boolean} antialias [description]
    * @param  {string} color     [description]
-   * @return {object}           [description]
+   * @return {external:HTMLCanvasElement} [description]
    */
   Croquis.createAlphaThresholdBorder = function (image, threshold,
                            antialias, color) {
@@ -2119,14 +2146,14 @@
    * [createFloodFill description]
    *
    * @alias Croquis.createFloodFill
-   * @param  {object} canvas [description]
+   * @param  {external:HTMLCanvasElement} canvas [description]
    * @param  {number} x      [description]
    * @param  {number} y      [description]
    * @param  {number} r      [description]
    * @param  {number} g      [description]
    * @param  {number} b      [description]
    * @param  {number} a      [description]
-   * @return {HTMLElement}        [description]
+   * @return {external:HTMLCanvasElement}        [description]
    */
   Croquis.createFloodFill = function (canvas, x, y, r, g, b, a) {
     var result = document.createElement('canvas');
@@ -2879,7 +2906,7 @@
      * @param  {number} x     [description]
      * @param  {number} y     [description]
      * @param  {number} scale [description]
-     * @return {object}       [description]
+     * @return {Rect}       [description]
      */
     this.up = function (x, y, scale) {
       dir = atan2(y - lastY, x - lastX);
