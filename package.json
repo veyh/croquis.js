@@ -1,0 +1,15 @@
+{
+  "name": "croquis.js",
+  "version": "0.1.0",
+  "main": "croquis.js",
+  "repository": "git@github.com:veyh/croquis.js.git",
+  "author": "veyh <wibestn@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jsdoc": "^3.5.5",
+    "minami": "^1.2.3"
+  },
+  "scripts": {
+    "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
+  }
+}
