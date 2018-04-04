@@ -1,4 +1,136 @@
+/*global define*/
 (function() {
+  /**
+   * @typedef {Rect}
+   * @param {number} x
+   * @param {number} y
+   * @param {number} width
+   * @param {number} height
+   */
+
+  /**
+   * @typedef {object} Dimensions
+   * @property {number} width
+   * @property {number} height
+   */
+
+  /**
+   * @typedef {object} Point
+   * @property {number} x
+   * @property {number} y
+   */
+
+  /**
+   * [description]
+   *
+   * @event Croquis#ondown
+   * @this {Croquis} The Croquis instance.
+   * @param {number} x
+   * @param {number} y
+   * @param {number} pressure
+   */
+
+  /**
+   * [description]
+   *
+   * @event Croquis#onmove
+   * @this {Croquis} The Croquis instance.
+   * @param {number} x
+   * @param {number} y
+   * @param {number} pressure
+   */
+
+  /**
+   * [description]
+   *
+   * @event Croquis#onup
+   * @this {Croquis} The Croquis instance.
+   * @param {number} x
+   * @param {number} y
+   * @param {number} pressure
+   * @param {Rect} dirtyRect
+   */
+
+  /**
+   * [description]
+   *
+   * @event Croquis#ontick
+   * @this {Croquis} The Croquis instance.
+   */
+
+  /**
+   * [description]
+   *
+   * @event Croquis#onchange
+   * @this {Croquis} The Croquis instance.
+   */
+
+  /**
+   * [description]
+   *
+   * @event Croquis#onchanged
+   * @this {Croquis} The Croquis instance.
+   */
+
+  /**
+   * Fired when the zoom (scale) of the canvas has changed.
+   *
+   * @event Croquis#onzoomchanged
+   * @this {Croquis} The Croquis instance.
+   */
+
+  /**
+   * Fired when the tool is changed.
+   *
+   * @event Croquis#ontool
+   * @this {Croquis} The Croquis instance.
+   * @param {object} tool
+   */
+
+  /**
+   * Fired when the size of the canvas has changed.
+   *
+   * @event Croquis#oncanvassize
+   * @this {Croquis} The Croquis instance.
+   * @param {number} width
+   * @param {number} height
+   * @param {number} offsetX
+   * @param {number} offsetY
+   */
+
+  /**
+   * Fired when a layer has been added.
+   *
+   * @event Croquis#onlayeradd
+   * @this {Croquis} The Croquis instance.
+   * @param {number} index
+   */
+
+  /**
+   * Fired when a layer has been removed.
+   *
+   * @event Croquis#onlayerremove
+   * @this {Croquis} The Croquis instance.
+   * @param {number} index
+   */
+
+  /**
+   * Fired when two layers have been swapped.
+   *
+   * @event Croquis#onlayerswap
+   * @this {Croquis} The Croquis instance.
+   * @param {number} a Index of the first layer.
+   * @param {number} b Index of the second layer.
+   */
+
+  /**
+   * Fired when a layer has been selected.
+   *
+   * @event Croquis#onlayerselect
+   * @this {Croquis} The Croquis instance.
+   * @param {number} index
+   */
+
   /**
    * [Croquis description]
    *
@@ -44,7 +176,7 @@
      * [getDOMContainer description]
      *
      * @alias Croquis#getDOMContainer
-     * @return {HTMLElement}
+     * @return {HTMLElement} [description]
      */
     self.getDOMContainer = function () {
       return domContainer;
@@ -84,18 +216,20 @@
      *
      * @alias Croquis#setScale
      * @param {number} s [description]
+     * @return {undefined}
      */
     self.setScale = function(s) {
       scale = s;
       ScaleCroquis();
       moveCroquis();  // must be called (to get centering)
-    }
+    };
 
     /**
      * [setScaleCentered description]
      *
      * @alias Croquis#setScaleCentered
      * @param {number} s [description]
+     * @return {undefined}
      */
     self.setScaleCentered = function(s) {
       var dx = size.width*(s-scale)/2;
@@ -103,7 +237,7 @@
       canvasX -= dx;
       canvasY -= dy;
       self.setScale(s);
-    }
+    };
 
     /**
      * [setContainerSize description]
@@ -111,6 +245,7 @@
      * @alias Croquis#setContainerSize
      * @param {number} wid [description]
      * @param {number} hei [description]
+     * @return {undefined}
      */
     self.setContainerSize = function(wid, hei) {
       containerSize.width = wid;
@@ -120,7 +255,7 @@
       domContainer.style.setProperty('height', containerSize.height+'px');
 
       moveCroquis();  // must be called (to get centering)
-    }
+    };
 
     function moveCroquis() {
       // @lazykuna; for transform
@@ -138,28 +273,23 @@
      * @alias Croquis#moveCanvas
      * @param  {number} x [description]
      * @param  {number} y [description]
+     * @return {undefined}
      */
     self.moveCanvas = function(x, y) {
       canvasX = x;
       canvasY = y;
       moveCroquis();
-    }
-
-    /**
-     * @typedef {object} Dimensions
-     * @property {number} width
-     * @property {number} height
-     */
+    };
 
     /**
      * [getContainerSize description]
      *
      * @alias Croquis#getContainerSize
-     * @return {Dimensions}
+     * @return {Dimensions} [description]
      */
     self.getContainerSize = function() {
       return containerSize;
-    }
+    };
 
     /**
      * Returns the current scale of the canvas.
@@ -169,7 +299,7 @@
      */
     self.getScale = function () {
       return scale;
-    }
+    };
 
     /**
      * Returns the current canvas size, including scale.
@@ -177,17 +307,11 @@
      * So if your canvas is 100x100 and scale is 1.5, this will return 150x150.
      *
      * @alias Croquis#getScaledCanvasSize
-     * @return {Dimensions}
+     * @return {Dimensions} [description]
      */
     self.getScaledCanvasSize = function() {
       return {'width': size.width*scale, 'height': size.height*scale};
-    }
-
-    /**
-     * @typedef {object} Point
-     * @property {number} x
-     * @property {number} y
-     */
+    };
 
     /**
      * [getCanvasPosition description]
@@ -197,13 +321,15 @@
      */
     self.getCanvasPosition = function() {
       return {'x': canvasX, 'y': canvasY};
-    }
+    };
 
     /**
      * [getRelativePosition description]
      *
      * @alias Croquis#getRelativePosition
-     * @return {Point}
+     * @param  {number} absoluteX [description]
+     * @param  {number} absoluteY [description]
+     * @return {Point}           [description]
      */
     self.getRelativePosition = function (absoluteX, absoluteY) {
       var rect = domElement.getBoundingClientRect();
@@ -214,7 +340,9 @@
      * [getRelativeContainerPosition description]
      *
      * @alias Croquis#getRelativeContainerPosition
-     * @return {Point}
+     * @param  {number} absoluteX [description]
+     * @param  {number} absoluteY [description]
+     * @return {Point}           [description]
      */
     self.getRelativeContainerPosition = function (absoluteX, absoluteY) {
       var rect = domContainer.getBoundingClientRect();
@@ -253,6 +381,7 @@
      * @alias Croquis#addEventListener
      * @param {string} event    [description]
      * @param {function} listener [description]
+     * @return {undefined}
      */
     self.addEventListener = function (event, listener) {
       event = event.toLowerCase();
@@ -270,6 +399,7 @@
      * @alias Croquis#removeEventListener
      * @param {string} event    [description]
      * @param {function} listener [description]
+     * @return {undefined}
      */
     self.removeEventListener = function (event, listener) {
       event = event.toLowerCase();
@@ -291,6 +421,7 @@
      * @alias Croquis#hasEventListener
      * @param {string} event    [description]
      * @param {function} listener [description]
+     * @return {undefined}
      */
     self.hasEventListener = function (event, listener) {
       event = event.toLowerCase();
@@ -322,6 +453,7 @@
      *
      * @alias Croquis#setUndoLimit
      * @param {number} limit [description]
+     * @return {undefined}
      */
     self.setUndoLimit = function (limit) {
       undoLimit = limit;
@@ -331,6 +463,7 @@
      * [lockHistory description]
      *
      * @alias Croquis#lockHistory
+     * @return {undefined}
      */
     self.lockHistory = function () {
       preventPushUndo = true;
@@ -340,6 +473,7 @@
      * [unlockHistory description]
      *
      * @alias Croquis#unlockHistory
+     * @return {undefined}
      */
     self.unlockHistory = function () {
       preventPushUndo = false;
@@ -349,6 +483,7 @@
      * [beginHistoryTransaction description]
      *
      * @alias Croquis#beginHistoryTransaction
+     * @return {undefined}
      */
     self.beginHistoryTransaction = function () {
       undoStack.push([]);
@@ -359,6 +494,7 @@
      * [endHistoryTransaction description]
      *
      * @alias Croquis#endHistoryTransaction
+     * @return {undefined}
      */
     self.endHistoryTransaction = function () {
       pushToTransaction = false;
@@ -368,6 +504,7 @@
      * [clearHistory description]
      *
      * @alias Croquis#clearHistory
+     * @return {undefined}
      */
     self.clearHistory = function () {
       if (preventPushUndo)
@@ -395,6 +532,7 @@
      * [undo description]
      *
      * @alias Croquis#undo
+     * @return {undefined}
      */
     self.undo = function () {
       if (pushToTransaction)
@@ -417,6 +555,7 @@
      * [redo description]
      *
      * @alias Croquis#redo
+     * @return {undefined}
      */
     self.redo = function () {
       if (pushToTransaction)
@@ -445,7 +584,7 @@
         snapshotMetadata = temp;
         self.unlockHistory();
         return swap;
-      }
+      };
       pushUndo(swap);
     }
 
@@ -459,7 +598,7 @@
         snapshotOpacity = temp;
         self.unlockHistory();
         return swap;
-      }
+      };
       pushUndo(swap);
     }
 
@@ -473,7 +612,7 @@
         snapshotVisible = temp;
         self.unlockHistory();
         return swap;
-      }
+      };
       pushUndo(swap);
     }
 
@@ -483,7 +622,7 @@
         self.swapLayer(layerA, layerB);
         self.unlockHistory();
         return swap;
-      }
+      };
       pushUndo(swap);
     }
 
@@ -494,13 +633,13 @@
         self.unlockHistory();
         cacheLayer(index);
         return remove;
-      }
+      };
       var remove = function () {
         self.lockHistory();
         self.removeLayer(index);
         self.unlockHistory();
         return add;
-      }
+      };
       pushUndo(remove);
     }
     function pushRemoveLayerUndo(index) {
@@ -522,13 +661,13 @@
         self.unlockHistory();
         cacheLayer(index);
         return remove;
-      }
+      };
       var remove = function () {
         self.lockHistory();
         self.removeLayer(index);
         self.unlockHistory();
         return add;
-      }
+      };
       pushUndo(add);
     }
     function pushDirtyRectUndo(x, y, width, height, index) {
@@ -552,7 +691,7 @@
       if ((width == 0) || (height == 0)) {
         var doNothing = function () {
           return doNothing;
-        }
+        };
         pushUndo(doNothing);
       }
       else {
@@ -565,16 +704,18 @@
           snapshotData = tempData;
           cacheLayer(index);
           return swap;
-        }
+        };
         pushUndo(swap);
       }
       if (renderDirtyRect)
         drawDirtyRect(x, y, width, height);
     }
+
     function pushContextUndo(index) {
       index = (index == null) ? layerIndex : index;
       pushDirtyRectUndo(0, 0, size.width, size.height, index);
     }
+
     function pushAllContextUndo() {
       var snapshotDatas = [];
       var i;
@@ -590,15 +731,16 @@
         layerContext.putImageData(snapshotDatas[index], 0, 0);
         snapshotDatas[index] = tempData;
         cacheLayer(index);
-      }
+      };
       var swapAll = function () {
         for (var i = 0; i < layers.length; ++i)
           swap(i);
         return swapAll;
-      }
+      };
       pushUndo(swapAll);
       dispatchEvent('onchanged');
     }
+
     function pushCanvasSizeUndo(width, height, offsetX, offsetY) {
       var snapshotSize = self.getCanvasSize();
       var snapshotDatas = [];
@@ -620,12 +762,12 @@
           layerContext.putImageData(snapshotDatas[i], 0, 0);
         }
         return redo;
-      }
+      };
       var redo = function () {
         rollback();
         setSize(width, height, offsetX, offsetY);
         return rollback;
-      }
+      };
       pushUndo(rollback);
       dispatchEvent('onchanged');
     }
@@ -649,6 +791,7 @@
      * @param {number} height  [description]
      * @param {number} offsetX [description]
      * @param {number} offsetY [description]
+     * @return {undefined}
      */
     self.setCanvasSize = function (width, height, offsetX, offsetY) {
       offsetX = (offsetX == null) ? 0 : offsetX;
@@ -709,6 +852,7 @@
      * @alias Croquis#setCanvasWidth
      * @param {number} width   [description]
      * @param {number} offsetX [description]
+     * @return {undefined}
      */
     self.setCanvasWidth = function (width, offsetX) {
       self.setCanvasSize(width, size.height, offsetX, 0);
@@ -730,6 +874,7 @@
      * @alias Croquis#setCanvasHeight
      * @param {number} height  [description]
      * @param {number} offsetY [description]
+     * @return {undefined}
      */
     self.setCanvasHeight = function (height, offsetY) {
       self.setCanvasSize(size.width, height, 0, offsetY);
@@ -803,6 +948,7 @@
      *
      * @alias Croquis#setRenderDirtyRect
      * @param {boolean} render [description]
+     * @return {undefined}
      */
     self.setRenderDirtyRect = function (render) {
       renderDirtyRect = render;
@@ -882,6 +1028,7 @@
      *
      * @alias Croquis#addLayer
      * @param {number} index
+     * @return {object}
      */
     self.addLayer = function (index) {
       index = (index == null) ? layers.length : index;
@@ -913,6 +1060,7 @@
      *
      * @alias Croquis#removeLayer
      * @param  {number} index
+     * @return {undefined}
      */
     self.removeLayer = function (index) {
       index = (index == null) ? layerIndex : index;
@@ -932,6 +1080,7 @@
      * [removeAllLayer description]
      *
      * @alias Croquis#removeAllLayer
+     * @return {undefined}
      */
     self.removeAllLayer = function () {
       while (layers.length)
@@ -944,6 +1093,7 @@
      * @alias Croquis#swapLayer
      * @param  {index} layerA [description]
      * @param  {index} layerB [description]
+     * @return {undefined}
      */
     self.swapLayer = function (layerA, layerB) {
       pushSwapLayerUndo(layerA, layerB);
@@ -972,6 +1122,7 @@
      *
      * @alias Croquis#selectLayer
      * @param  {number} index [description]
+     * @return {undefined}
      */
     self.selectLayer = function (index) {
       var lastestLayerIndex = layers.length - 1;
@@ -991,6 +1142,7 @@
      *
      * @alias Croquis#clearLayer
      * @param  {number} index [description]
+     * @return {undefined}
      */
     self.clearLayer = function (index) {
       index = (index == null) ? layerIndex : index;
@@ -1007,6 +1159,7 @@
      * @alias Croquis#fillLayer
      * @param  {string} fillColor [description]
      * @param  {number} index     [description]
+     * @return {undefined}
      */
     self.fillLayer = function (fillColor, index) {
       index = (index == null) ? layerIndex : index;
@@ -1028,6 +1181,7 @@
      * @param  {number} width     [description]
      * @param  {number} height    [description]
      * @param  {number} index     [description]
+     * @return {undefined}
      */
     self.fillLayerRect = function (fillColor, x, y, width, height, index) {
       index = (index == null) ? layerIndex : index;
@@ -1050,6 +1204,7 @@
      * @param  {number} b     [description]
      * @param  {number} a     [description]
      * @param  {number} index [description]
+     * @return {undefined}
      */
     self.floodFill = function (x, y, r, g, b, a, index) {
       index = (index == null) ? layerIndex : index;
@@ -1131,6 +1286,7 @@
      * @alias Croquis#setLayerMetadata
      * @param {object} metadata [description]
      * @param {number} index    [description]
+     * @return {undefined}
      */
     self.setLayerMetadata = function (metadata, index) {
       index = (index == null) ? layerIndex : index;
@@ -1145,6 +1301,7 @@
      * @alias Croquis#getLayerOpacity
      * @param  {number} index [description]
      * @return {number}       [description]
+     * @return {undefined}
      */
     self.getLayerOpacity = function (index) {
       index = (index == null) ? layerIndex : index;
@@ -1159,6 +1316,7 @@
      * @alias Croquis#setLayerOpacity
      * @param {number} opacity [description]
      * @param {number} index   [description]
+     * @return {undefined}
      */
     self.setLayerOpacity = function (opacity, index) {
       index = (index == null) ? layerIndex : index;
@@ -1186,6 +1344,7 @@
      * @alias Croquis#setLayerVisible
      * @param {boolean} visible [description]
      * @param {number} index   [description]
+     * @return {undefined}
      */
     self.setLayerVisible = function (visible, index) {
       index = (index == null) ? layerIndex : index;
@@ -1306,6 +1465,7 @@
      *
      * @alias Croquis#setTool
      * @param {object} value [description]
+     * @return {undefined}
      */
     self.setTool = function (value) {
       tool = value;
@@ -1332,6 +1492,7 @@
      *
      * @alias Croquis#setPaintingOpacity
      * @param {number} opacity [description]
+     * @return {undefined}
      */
     self.setPaintingOpacity = function (opacity) {
       paintingOpacity = opacity;
@@ -1353,6 +1514,7 @@
      *
      * @alias Croquis#setPaintingKnockout
      * @param {boolean} knockout [description]
+     * @return {undefined}
      */
     self.setPaintingKnockout = function (knockout) {
       paintingKnockout = knockout;
@@ -1374,6 +1536,7 @@
      *
      * @alias Croquis#setTickInterval
      * @param {number} interval [description]
+     * @return {undefined}
      */
     self.setTickInterval = function (interval) {
       tickInterval = interval;
@@ -1395,6 +1558,7 @@
      *
      * @alias Croquis#setToolStabilizeLevel
      * @param {number} level [description]
+     * @return {undefined}
      */
     self.setToolStabilizeLevel = function (level) {
       toolStabilizeLevel = (level < 0) ? 0 : level;
@@ -1415,6 +1579,7 @@
      *
      * @alias Croquis#setToolStabilizeWeight
      * @param {number} weight [description]
+     * @return {undefined}
      */
     self.setToolStabilizeWeight = function (weight) {
       toolStabilizeWeight = weight;
@@ -1435,6 +1600,7 @@
      *
      * @alias Croquis#setToolStabilizeInterval
      * @param {number} interval [description]
+     * @return {undefined}
      */
     self.setToolStabilizeInterval = function (interval) {
       stabilizerInterval = interval;
@@ -1504,6 +1670,7 @@
      * @param  {number} x        [description]
      * @param  {number} y        [description]
      * @param  {number} pressure [description]
+     * @return {undefined}
      */
     self.down = function (x, y, pressure) {
       // @lazykuna; convert x, y
@@ -1564,6 +1731,7 @@
      * @param  {number} x        [description]
      * @param  {number} y        [description]
      * @param  {number} pressure [description]
+     * @return {undefined}
      */
     self.move = function (x, y, pressure) {
       // @lazykuna; convert x, y
@@ -1592,6 +1760,7 @@
      * @param  {number} x        [description]
      * @param  {number} y        [description]
      * @param  {number} pressure [description]
+     * @return {undefined}
      */
     self.up = function (x, y, pressure) {
       // @lazykuna; convert x, y
@@ -1616,7 +1785,7 @@
       stabilizer = null;
     };
     // apply image data
-    ;(function (croquis, imageDataList) {
+    (function (croquis, imageDataList) {
       if (imageDataList != null) {
         if (imageDataList.length == 0)
           return;
@@ -1648,6 +1817,7 @@
      *
      * @alias Croquis#addOverlayLayer
      * @param {string} name [description]
+     * @return {object} [description]
      */
     self.addOverlayLayer = function(name) {
       var layer = document.createElement('div');
@@ -1665,13 +1835,14 @@
       overlaylayers[name] = layer;
 
       return canvas;
-    }
+    };
 
     /**
      * [removeOverlayLayer description]
      *
      * @alias Croquis#removeOverlayLayer
      * @param  {string} name [description]
+     * @return {undefined}
      */
     self.removeOverlayLayer = function(name) {
       if (name == undefined) {
@@ -1683,7 +1854,7 @@
         return;
       }
 
-      obj = overlaylayers[name];
+      var obj = overlaylayers[name];
       if (obj == undefined)
         return;
 
@@ -1692,7 +1863,7 @@
 
       // remove from dict
       delete overlaylayers[name];
-    }
+    };
 
     /**
      * [setOverlayLayerData description]
@@ -1700,14 +1871,16 @@
      * @alias Croquis#setOverlayLayerData
      * @param {name} name [description]
      * @param {object} data [description]
+     * @return {undefined}
      */
     self.setOverlayLayerData = function(name, data) {
-      ctx = self.getOverlayLayerContext(name)
+      var ctx = self.getOverlayLayerContext(name);
+
       if (ctx == null)
         return;
 
       ctx.putImageData(data, 0, 0);
-    }
+    };
 
     /**
      * [getOverlayLayer description]
@@ -1759,7 +1932,7 @@
     context.fillRect(0, 0, cellSize, cellSize);
     context.fillRect(cellSize, cellSize, size, size);
     return checker;
-  }
+  };
 
   /**
    * [createBrushPointer description]
@@ -1940,7 +2113,7 @@
     context.fillStyle = color;
     context.fillRect(0, 0, width, height);
     return canvas;
-  }
+  };
 
   /**
    * [createFloodFill description]
@@ -2014,7 +2187,7 @@
     }
     resultContext.putImageData(resultData, 0, 0);
     return result;
-  }
+  };
 
   Croquis.Tablet = {};
   Croquis.Tablet.plugin = function () {
@@ -2028,19 +2201,19 @@
       document.body.appendChild(plugin);
     }
     return plugin;
-  }
+  };
   Croquis.Tablet.pen = function () {
     var plugin = Croquis.Tablet.plugin();
     return plugin.penAPI;
-  }
+  };
   Croquis.Tablet.pressure = function () {
     var pen = Croquis.Tablet.pen();
     return (pen && pen.pointerType) ? pen.pressure : 1;
-  }
+  };
   Croquis.Tablet.isEraser = function () {
     var pen = Croquis.Tablet.pen();
     return pen ? pen.isEraser : false;
-  }
+  };
 
   /**
    * @callback downCallback
@@ -2094,7 +2267,7 @@
 
     this.getParamTable = function () { //for test
       return paramTable;
-    }
+    };
 
     /**
      * [move description]
@@ -2103,12 +2276,13 @@
      * @param  {number} x        [description]
      * @param  {number} y        [description]
      * @param  {number} pressure [description]
+     * @return {undefined}
      */
     this.move = function (x, y, pressure) {
       current.x = x;
       current.y = y;
       current.pressure = pressure;
-    }
+    };
 
     /**
      * [up description]
@@ -2117,13 +2291,14 @@
      * @param  {number} x        [description]
      * @param  {number} y        [description]
      * @param  {number} pressure [description]
+     * @return {undefined}
      */
     this.up = function (x, y, pressure) {
       current.x = x;
       current.y = y;
       current.pressure = pressure;
       upCalled = true;
-    }
+    };
 
     function dlerp(a, d, t) {
       return a + d * t;
@@ -2165,7 +2340,7 @@
         window.setTimeout(_move, interval);
       }
     }
-  }
+  };
 
   Croquis.Random = {};
 
@@ -2198,7 +2373,7 @@
       f  = ((d << 3) ^ d) >> 12;
       d = ((d & 4294967168) << 13) ^ f;
       return (a ^ b ^ c ^ d) * 2.3283064365386963e-10 + 0.5;
-    }
+    };
     seed |= 0;
     if (seed <= 0) seed = 1;
     e = (seed / IQ) | 0;
@@ -2218,7 +2393,7 @@
     if (seed < 0) seed = (seed + IM) | 0;
     if (seed < 128) d = (seed + 128) | 0; else d = seed;
     this.get();
-  }
+  };
 
   /**
    * @class Croquis.Brush
@@ -2247,18 +2422,20 @@
      *
      * @alias Croquis#setRandomFunction
      * @param {randomCallback} value=Math.random [description]
+     * @return {undefined}
      */
     this.setRandomFunction = function (value) {
       random = value;
-    }
+    };
 
     /**
      * TODO-wibe: should this actually return the brush? :D
      *
      * @alias Croquis.Brush#clone
+     * @return {undefined}
      */
     this.clone = function () {
-      var clone = new Brush(context);
+      var clone = new Croquis.Brush(context);
       clone.setColor(this.getColor());
       clone.setFlow(this.getFlow());
       clone.setSize(this.getSize());
@@ -2268,7 +2445,7 @@
       clone.setNormalSpread(this.getNormalSpread());
       clone.setTangentSpread(this.getTangentSpread());
       clone.setImage(this.getImage());
-    }
+    };
 
     var context = null;
 
@@ -2280,17 +2457,18 @@
      */
     this.getContext = function () {
       return context;
-    }
+    };
 
     /**
      * [setContext description]
      *
      * @alias Croquis.Brush#setContext
      * @param {object} value [description]
+     * @return {undefined}
      */
     this.setContext = function (value) {
       context = value;
-    }
+    };
 
     var color = '#000';
 
@@ -2302,18 +2480,19 @@
      */
     this.getColor = function () {
       return color;
-    }
+    };
 
     /**
      * [setColor description]
      *
      * @alias Croquis.Brush#setColor
      * @param {number} value [description]
+     * @return {undefined}
      */
     this.setColor = function (value) {
       color = value;
       transformedImageIsDirty = true;
-    }
+    };
 
     var flow = 1;
 
@@ -2325,18 +2504,19 @@
      */
     this.getFlow = function() {
       return flow;
-    }
+    };
 
     /**
      * [setFlow description]
      *
      * @alias Croquis.Brush#setFlow
      * @param {number} value [description]
+     * @return {undefined}
      */
     this.setFlow = function(value) {
       flow = value;
       transformedImageIsDirty = true;
-    }
+    };
 
     var size = 10;
 
@@ -2348,18 +2528,19 @@
      */
     this.getSize = function () {
       return size;
-    }
+    };
 
     /**
      * [setSize description]
      *
      * @alias Croquis.Brush#setSize
      * @param {number} value [description]
+     * @return {undefined}
      */
     this.setSize = function (value) {
       size = (value < 1) ? 1 : value;
       transformedImageIsDirty = true;
-    }
+    };
 
     var spacing = 0.2;
 
@@ -2371,17 +2552,18 @@
      */
     this.getSpacing = function () {
       return spacing;
-    }
+    };
 
     /**
      * [setSpacing description]
      *
      * @alias Croquis.Brush#setSpacing
      * @param {number} value [description]
+     * @return {undefined}
      */
     this.setSpacing = function (value) {
       spacing = (value < 0.01) ? 0.01 : value;
-    }
+    };
 
     var toRad = PI / 180;
     var toDeg = 1 / toRad;
@@ -2395,17 +2577,18 @@
      */
     this.getAngle = function () { // returns degree unit
       return angle * toDeg;
-    }
+    };
 
     /**
      * [setAngle description]
      *
      * @alias Croquis.Brush#setAngle
      * @param {number} value [description]
+     * @return {undefined}
      */
     this.setAngle = function (value) {
       angle = value * toRad;
-    }
+    };
 
     var rotateToDirection = false;
 
@@ -2417,17 +2600,18 @@
      */
     this.getRotateToDirection = function () {
       return rotateToDirection;
-    }
+    };
 
     /**
      * [setRotateToDirection description]
      *
      * @alias Croquis.Brush#setRotateToDirection
      * @param {number} value [description]
+     * @return {undefined}
      */
     this.setRotateToDirection = function (value) {
       rotateToDirection = value;
-    }
+    };
 
     var normalSpread = 0;
 
@@ -2439,17 +2623,18 @@
      */
     this.getNormalSpread = function () {
       return normalSpread;
-    }
+    };
 
     /**
      * [setNormalSpread description]
      *
      * @alias Croquis.Brush#setNormalSpread
      * @param {number} value [description]
+     * @return {undefined}
      */
     this.setNormalSpread = function (value) {
       normalSpread = value;
-    }
+    };
 
     var tangentSpread = 0;
 
@@ -2461,17 +2646,18 @@
      */
     this.getTangentSpread = function () {
       return tangentSpread;
-    }
+    };
 
     /**
      * [setTangentSpread description]
      *
      * @alias Croquis.Brush#setTangentSpread
      * @param {number} value [description]
+     * @return {undefined}
      */
     this.setTangentSpread = function (value) {
       tangentSpread = value;
-    }
+    };
 
     var image = null;
     var transformedImage = null;
@@ -2486,13 +2672,14 @@
      */
     this.getImage = function () {
       return image;
-    }
+    };
 
     /**
      * [setImage description]
      *
      * @alias Croquis.Brush#setImage
      * @param {object} value [description]
+     * @return {undefined}
      */
     this.setImage = function (value) {
       if (value == null) {
@@ -2507,7 +2694,7 @@
         drawFunction = drawImage;
         transformedImageIsDirty = true;
       }
-    }
+    };
     var delta = 0;
     var prevX = 0;
     var prevY = 0;
@@ -2604,6 +2791,7 @@
      * @param  {number} x     [description]
      * @param  {number} y     [description]
      * @param  {number} scale [description]
+     * @return {undefined}
      */
     this.down = function(x, y, scale) {
       if (context == null)
@@ -2620,7 +2808,7 @@
       lastX = prevX = x;
       lastY = prevY = y;
       prevScale = scale;
-    }
+    };
 
     /**
      * [move description]
@@ -2629,6 +2817,7 @@
      * @param  {number} x     [description]
      * @param  {number} y     [description]
      * @param  {number} scale [description]
+     * @return {undefined}
      */
     this.move = function(x, y, scale) {
       if (context == null)
@@ -2681,7 +2870,7 @@
         }
       }
       prevScale = scale;
-    }
+    };
 
     /**
      * [up description]
@@ -2696,8 +2885,8 @@
       dir = atan2(y - lastY, x - lastX);
       drawReserved();
       return dirtyRect;
-    }
-  }
+    };
+  };
 
   //
   // export
